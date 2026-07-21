@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-base: #020617;
+  --bg-panel: rgba(2, 6, 23, 0.4);
+  --bg-elevated: rgba(15, 23, 42, 0.6);
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border-soft: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --overlay: rgba(2, 6, 23, 0.6);
+  --accent: #38bdf8;
+  --accent-soft: rgba(56, 189, 248, 0.15);
+  --accent-ring: rgba(56, 189, 248, 0.4);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  transition: background-color 0.4s ease, color 0.3s ease;
+}
+
+@layer components {
+  .glass-panel {
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-soft);
+    backdrop-filter: blur(12px);
+  }
+  .glass-elevated {
+    background-color: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    backdrop-filter: blur(16px);
+  }
+  .text-primary { color: var(--text-primary); }
+  .text-secondary { color: var(--text-secondary); }
+  .text-muted { color: var(--text-muted); }
+  .border-soft { border-color: var(--border-soft); }
+  .border-strong { border-color: var(--border-strong); }
+  .bg-accent { background-color: var(--accent); }
+  .text-accent { color: var(--accent); }
+  .ring-accent { box-shadow: 0 0 0 1px var(--accent-ring); }
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.2); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.4); }
+
+/* Background styles */
+[data-bg="grid"] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  background-image:
+    linear-gradient(var(--border-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-soft) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
+
+[data-bg="aurora"] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 30%, var(--accent-soft), transparent),
+    radial-gradient(ellipse 50% 40% at 80% 70%, var(--accent-soft), transparent),
+    radial-gradient(ellipse 40% 30% at 50% 90%, var(--accent-soft), transparent);
+  animation: aurora-shift 12s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-shift {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-3%, 2%) scale(1.05); }
+}
+
+/* Page transitions */
+.fade-in { animation: fade-in 0.4s ease forwards; }
+.slide-up { animation: slide-up 0.4s ease forwards; }
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Skeleton shimmer */
+.skeleton {
+  background: linear-gradient(90deg, var(--border-soft) 25%, var(--border-strong) 50%, var(--border-soft) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Markdown rendering */
+.prose-note h1 { font-size: 1.25rem; font-weight: 700; margin: 0.5rem 0; }
+.prose-note h2 { font-size: 1.1rem; font-weight: 700; margin: 0.5rem 0; }
+.prose-note h3 { font-size: 1rem; font-weight: 600; margin: 0.4rem 0; }
+.prose-note p { margin: 0.4rem 0; line-height: 1.6; }
+.prose-note ul { list-style: disc; padding-left: 1.2rem; margin: 0.4rem 0; }
+.prose-note ol { list-style: decimal; padding-left: 1.2rem; margin: 0.4rem 0; }
+.prose-note code { background: var(--border-soft); padding: 0.1rem 0.3rem; border-radius: 4px; font-size: 0.85em; }
+.prose-note pre { background: var(--border-soft); padding: 0.6rem; border-radius: 8px; overflow-x: auto; margin: 0.4rem 0; }
+.prose-note pre code { background: none; padding: 0; }
+.prose-note blockquote { border-left: 2px solid var(--accent); padding-left: 0.8rem; margin: 0.4rem 0; color: var(--text-secondary); }
+.prose-note a { color: var(--accent); text-decoration: underline; }
+.prose-note strong { font-weight: 700; }
